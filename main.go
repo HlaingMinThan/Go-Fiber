@@ -17,15 +17,13 @@ func main() {
 		return c.SendString("HEllO")
 	})
 
-	app.Get("/post", func(c *fiber.Ctx) error {
-		post := Post{
-			Title: "hello",
-			Body:  "world",
-		}
+	postApis := app.Group("/post")
+
+	postApis.Get("/", func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).JSON(post)
 	})
 
-	app.Post("/post", func(c *fiber.Ctx) error {
+	postApis.Post("/", func(c *fiber.Ctx) error {
 		body := &Post{}
 		err := c.BodyParser(body)
 		if err != nil {
